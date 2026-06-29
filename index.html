@@ -37,9 +37,23 @@
                 text-align:center;
                 pointer-events:none;
             }
+            #title{
+                position:absolute;
+                top:20px;
+                left:50%;
+                transform:translateX(-50%);
+                font-size:28px;
+                font-weight:600;
+                letter-spacing:6px;
+                color:#00ffcc;
+                font-family:'Inter', sans-serif;
+                text-shadow:0 0 12px #00ffcc;
+                pointer-events: none;
+            }
         </style>
     </head>
     <body>
+        <div id="title">DASH</div>
         <div id="message">Press SPACE to start</div>
         <canvas id="gameCanvas" width="800" height="400"></canvas>
 
@@ -81,7 +95,24 @@
 
             function drawPlayer(){
                 ctx.fillStyle= "#00ffcc";
-                ctx.fillRect(player.x, player.y - player.size, player.size, player.size);
+                
+                let x = player.x;
+                let y = player.y - player.size;
+                let size = player.size;
+                let r = 5;
+
+                ctx.beginPath();
+                ctx.moveTo(x + r, y);
+                ctx.lineTo(x + size - r, y);
+                ctx.quadraticCurveTo(x + size, y, x + size, y + r);
+                ctx.lineTo(x + size, y + size - r);
+                ctx.quadraticCurveTo(x + size, y + size, x + size - r, y + size);
+                ctx.lineTo(x + r, y + size);
+                ctx.quadraticCurveTo(x,y+size,x,y+size - r);
+                ctx.lineTo(x,y+r);
+                ctx.quadraticCurveTo(x,y,x+r,y);
+                ctx.closePath();
+                ctx.fill();
             }
 
             function drawTriangle(obs){
