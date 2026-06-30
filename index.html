@@ -110,11 +110,6 @@
             let nextLevelScore = 600;
             let cubeRotation =0;
             let backgroundOffset=0;
-            let platforms = [
-                { x:300, y:280, width:120, height:10},
-                { x:600, y:240, width:140, height:10},
-                { x:950, y:300, width:160, height:10}
-            ];
 
             function spawnObstacle(){
                 let height = 20+ Math.random() * 60;
@@ -166,17 +161,6 @@
                 ctx.shadowBlur = 0;
             }
 
-            function drawPlatforms(){
-                ctx.fillStyle = "#00ffcc";
-                ctx.shadowColor = "#00ffcc";
-                ctx.shadowBlur = 15;
-
-                for(let p of platforms){
-                    ctx.fillRect(p.x,p.y,p.width,p.height);
-                }
-                ctx.shadowBlur = 0;
-            }
-
             function update(){
                 if(!gameStarted || gameOver)return;
                 player.velocityY += player.gravity;
@@ -195,11 +179,6 @@
                     const quarterTurn = Math.PI / 2;
                     cubeRotation = Math.round(cubeRotation/quarterTurn)*quarterTurn;
                 }
-                for(let p of platforms){
-                    p.x -= speed;
-                }
-                platforms = platforms.filter(p => p.x + p.width > -50);
-
                 for(let i = 0; i < obstacles.length; i++){
                     obstacles[i].x -= speed;
                     const obsTop = groundY - obstacles[i].height;
@@ -208,14 +187,6 @@
                     if (player.x < obstacles[i].x + obstacles[i].width && player.x + player.size > obstacles[i].x && player.y > safeZone - player.size)
                     {
                         endGame();
-                    }
-                }
-                for(let p of platforms){
-                    const isLanding = player.x < p.x + p.width && player.x + player.size > p.x && player.y <= p.y && player.y + player.velocityY >= p.y;
-                    if(isLanding){
-                        player.y = p.y;
-                        player.velocityY=0;
-                        player.onGround = true;
                     }
                 }
                 obstacles = obstacles.filter(o => o.x > -50);
@@ -284,7 +255,6 @@
                 ctx.fillRect(0,groundY, canvas.width, 3);
                 ctx.shadowBlur = 0;
                 drawPlayer();
-                drawPlatforms();
                 for(let obs of obstacles){
                     drawTriangle(obs);
                 }
