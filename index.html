@@ -122,8 +122,6 @@
             function drawPlayer(){
                 ctx.shadowColor = "#00ffcc";
                 ctx.shadowBlur = 25;
-
-
                 ctx.fillStyle= "#00ffcc";
                 
                 let x = player.x;
@@ -183,14 +181,11 @@
                     }
                 }
                 obstacles = obstacles.filter(o => o.x > -50);
-
                 frameCount++;
                 if(frameCount % 90 === 0){
                     spawnObstacle();
                 }
-
                 score++;
-
                 if (score >= nextLevelScore){
                     level++;
                     speed += 0.7;
